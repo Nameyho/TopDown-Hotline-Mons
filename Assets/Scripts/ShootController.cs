@@ -19,6 +19,8 @@ public class ShootController : MonoBehaviour
 
     private float _nextShootTime;
 
+    public LayerMask _destructibleLayer;
+
     private void Start() {
         _transform = transform;
         _nextShootTime = 0f;
@@ -33,6 +35,11 @@ public class ShootController : MonoBehaviour
              TrailRenderer bullletTrail = Instantiate(bulletTrailPrefab,_transform.position,Quaternion.identity);
              bullletTrail.AddPosition(_transform.position);
              if(_isHit){
+                 GameObject _hitObject = _hitInfo.collider.gameObject;
+                 if(LayerMask.LayerToName(_hitObject.layer) == "Destructible")
+                 {
+                    Destroy(_hitObject);
+                 }
                 // faire des trucs avec la collission détéctée
                 ParticleSystem collissionExplosion = Instantiate(CollissionExplosionPrefab,_hitInfo.point,Quaternion.identity);
                 
