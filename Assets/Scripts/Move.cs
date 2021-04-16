@@ -8,8 +8,11 @@ public class Move : MonoBehaviour
     public float speed; 
     private Transform myTransform;
 
+    private Rigidbody _myRigidbody;
+
     private void Start() {
         myTransform = transform;
+        _myRigidbody = GetComponent<Rigidbody>();
     }
     private  void Update() 
     {
@@ -32,6 +35,8 @@ public class Move : MonoBehaviour
             direction += Vector3.right;
         }
             myTransform.Translate(direction * Time.deltaTime * speed,Space.World);
+
+            _myRigidbody.velocity =Vector3.zero;
         
     }
 
