@@ -15,14 +15,19 @@ public class ShootController : MonoBehaviour
 
     public TrailRenderer bulletTrailPrefab;
 
+    public float shootPeriod;
+
+    private float _nextShootTime;
+
     private void Start() {
         _transform = transform;
+        _nextShootTime = 0f;
     }
     private void Update() {
 
         _isHit = Physics.Raycast(_transform.position,_transform.forward, out _hitInfo);
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0) &&  Time.time >= _nextShootTime)
         {
              MuzzleFlashe.Play();
              TrailRenderer bullletTrail = Instantiate(bulletTrailPrefab,_transform.position,Quaternion.identity);
@@ -39,6 +44,8 @@ public class ShootController : MonoBehaviour
                bullletTrail.transform.position = _hitInfo.point;
                //bullletTrail.AddPosition(_hitInfo.point);
                }
+
+               _nextShootTime = Time.time + shootPeriod;
         }
     }
 
